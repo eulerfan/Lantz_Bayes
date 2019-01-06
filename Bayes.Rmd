@@ -108,7 +108,7 @@ wordcloud(ham$v2, max.words = 40, scale = c(3, 0.5))
 ```{r}
 #creating indicator features p119
 
- findFreqTerms(sms_dtm_train, 5)# frequent terms appearing >5
+# findFreqTerms(sms_dtm_train, 5)# frequent terms appearing >5
 
  sms_freq_words <- findFreqTerms(sms_dtm_train, 5)
  
