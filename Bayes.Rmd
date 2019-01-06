@@ -1,0 +1,165 @@
+---
+title: "R Notebook"
+output: github_document
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(RCurl)
+library(tm)
+library(SnowballC)
+library(wordcloud)
+library(e1071)
+library(gmodels)
+
+#sms_raw <-read.csv(text=getURL("https://raw.githubusercontent.com/stedy/Machine-Learning-with-R-datasets/master/sms_spam.csv"), skip=7, header=T)
+
+#tab = read.delim("C:/Users/John/Documents/R/lantz/Lant#z_Bayes/SMSSpamCollection.txt")
+
+#write.table(tab, #file="sms_spam.csv",sep=",",col.names=FALSE,row.names=#FALSE)
+ 
+ #sms_raw <- read.csv("sms_spam.csv", stringsAsFactors = FALSE)
+ sms_raw<-read.csv("C:/Users/John/Documents/R/lantz/Lantz_Bayes/spam.csv")
+ str(sms_raw$v1)
+ 
+table(sms_raw$v1)
+  
+```
+```{r}
+sms_corpus<- VCorpus(VectorSource(sms_raw$v2)) #creating a corpus from the data
+
+print(sms_corpus)
+
+inspect(sms_corpus[1:2]) # summary of first and second message
+
+as.character(sms_corpus[[1]]) # to see the message
+```
+```{r}
+lapply(sms_corpus[1:2],as.character) #to view multiple documents
+
+#cleaning data
+
+ sms_corpus_clean <- tm_map(sms_corpus,
+ content_transformer(tolower))  #making all characters the corpus to lower case, standardizing 
+ 
+ # to check out put
+ as.character(sms_corpus[[1]])
+ 
+  as.character(sms_corpus_clean[[1]])
+  
+sms_corpus_clean <- tm_map(sms_corpus_clean, removeNumbers) # remove numbers from messages
+   
+   #removing stop words filler words(if,and,but...)
+ sms_corpus_clean <- tm_map(sms_corpus_clean,
+ removeWords, stopwords())
+ 
+  as.character(sms_corpus_clean[1])
+ 
+# removing punctuation
+sms_corpus_clean <- tm_map(sms_corpus_clean, removePunctuation)
+
+ as.character(sms_corpus_clean[1])
+
+  #stemming
+sms_corpus_clean <- tm_map(sms_corpus_clean, stemDocument)
+
+ as.character(sms_corpus_clean[1])
+
+#strip white space
+ sms_corpus_clean <- tm_map(sms_corpus_clean, stripWhitespace)
+ 
+  as.character(sms_corpus_clean[1])
+  
+
+```
+```{r}
+#data preparation
+
+ sms_dtm <- DocumentTermMatrix(sms_corpus_clean)
+
+#creating and training data
+ sms_dtm_train <- sms_dtm[1:4169, ]
+ sms_dtm_test <- sms_dtm[4170:5559, ]
+ 
+ sms_train_labels <- sms_raw[1:4169, ]$v1    
+ sms_test_labels <- sms_raw[4170:5559, ]$v1
+  
+  #confirm labels
+  prop.table(table(sms_train_labels))
+   prop.table(table(sms_test_labels))
+```
+```{r}
+#visualizing text data
+wordcloud(sms_corpus_clean,min.freq = 100,scale=c(2,.5), random.order = FALSE)
+
+# changed scale to fit 
+
+ spam <- subset(sms_raw, v1 = 2)
+ ham <- subset(sms_raw,v1=1)
+ 
+  wordcloud(spam$v2, max.words = 40, scale = c(3, 0.5))
+  
+wordcloud(ham$v2, max.words = 40, scale = c(3, 0.5))
+ 
+```
+```{r}
+#creating indicator features p119
+
+ findFreqTerms(sms_dtm_train, 5)# frequent terms appearing >5
+
+ sms_freq_words <- findFreqTerms(sms_dtm_train, 5)
+ 
+ str(sms_freq_words)
+ 
+  #filter DTM
+ 
+  sms_dtm_freq_train<- sms_dtm_train[ , sms_freq_words]
+  
+ sms_dtm_freq_test <- sms_dtm_test[ , sms_freq_words]
+ 
+#convert sparce matrix numbers to yes/no strings
+ 
+  convert_counts <- function(x) {
+ x <- ifelse(x > 0, "Yes", "No")
+  }
+  
+sms_train <- apply(sms_dtm_freq_train, MARGIN = 2,
+ convert_counts)
+   
+ sms_test <- apply(sms_dtm_freq_test, MARGIN = 2,
+ convert_counts)
+
+```
+```{r}
+#training a model on the data
+
+ sms_classifier <- naiveBayes(sms_train, sms_train_labels)
+
+#evaluate performance
+
+ sms_test_pred <- predict(sms_classifier, sms_test)
+ 
+CrossTable(sms_test_pred, sms_test_labels,
+ prop.chisq = FALSE, prop.t = FALSE,
+ dnn = c('predicted', 'actual'))
+```
+```{r}
+#improving model performance p123
+ sms_classifier2 <- naiveBayes(sms_train, sms_train_labels,
+ laplace = 1) #added laplace estimator
+
+ sms_test_pred2 <- predict(sms_classifier2, sms_test)
+ 
+  CrossTable(sms_test_pred2, sms_test_labels,
+ prop.chisq = FALSE, prop.t = FALSE, prop.r = FALSE,
+ dnn = c('predicted', 'actual'))
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
