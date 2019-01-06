@@ -55,6 +55,7 @@ sms_corpus_clean <- tm_map(sms_corpus_clean, removeNumbers) # remove numbers fro
  removeWords, stopwords())
  
   as.character(sms_corpus_clean[1])
+  
  
 # removing punctuation
 sms_corpus_clean <- tm_map(sms_corpus_clean, removePunctuation)
