@@ -143,7 +143,7 @@ sms_corpus_clean <- tm_map(sms_corpus_clean, removeNumbers) # remove numbers fro
   as.character(sms_corpus_clean[1])
 ```
 
-    ## [1] "list(list(content = \"go  jurong point, crazy.. available   bugis n great world la e buffet... cine  got amore wat...\", meta = list(author = character(0), datetimestamp = list(sec = 19.3196721076965, min = 36, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
+    ## [1] "list(list(content = \"go  jurong point, crazy.. available   bugis n great world la e buffet... cine  got amore wat...\", meta = list(author = character(0), datetimestamp = list(sec = 55.9749040603638, min = 58, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
     ## [2] "list()"                                                                                                                                                                                                                                                                                                                                                                                                  
     ## [3] "list()"
 
@@ -154,7 +154,7 @@ sms_corpus_clean <- tm_map(sms_corpus_clean, removePunctuation)
  as.character(sms_corpus_clean[1])
 ```
 
-    ## [1] "list(list(content = \"go  jurong point crazy available   bugis n great world la e buffet cine  got amore wat\", meta = list(author = character(0), datetimestamp = list(sec = 19.3196721076965, min = 36, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
+    ## [1] "list(list(content = \"go  jurong point crazy available   bugis n great world la e buffet cine  got amore wat\", meta = list(author = character(0), datetimestamp = list(sec = 55.9749040603638, min = 58, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
     ## [2] "list()"                                                                                                                                                                                                                                                                                                                                                                                         
     ## [3] "list()"
 
@@ -165,7 +165,7 @@ sms_corpus_clean <- tm_map(sms_corpus_clean, stemDocument)
  as.character(sms_corpus_clean[1])
 ```
 
-    ## [1] "list(list(content = \"go jurong point crazi avail bugi n great world la e buffet cine got amor wat\", meta = list(author = character(0), datetimestamp = list(sec = 19.3196721076965, min = 36, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
+    ## [1] "list(list(content = \"go jurong point crazi avail bugi n great world la e buffet cine got amor wat\", meta = list(author = character(0), datetimestamp = list(sec = 55.9749040603638, min = 58, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
     ## [2] "list()"                                                                                                                                                                                                                                                                                                                                                                               
     ## [3] "list()"
 
@@ -176,7 +176,7 @@ sms_corpus_clean <- tm_map(sms_corpus_clean, stemDocument)
   as.character(sms_corpus_clean[1])
 ```
 
-    ## [1] "list(list(content = \"go jurong point crazi avail bugi n great world la e buffet cine got amor wat\", meta = list(author = character(0), datetimestamp = list(sec = 19.3196721076965, min = 36, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
+    ## [1] "list(list(content = \"go jurong point crazi avail bugi n great world la e buffet cine got amor wat\", meta = list(author = character(0), datetimestamp = list(sec = 55.9749040603638, min = 58, hour = 10, mday = 6, mon = 0, year = 119, wday = 0, yday = 5, isdst = 0), description = character(0), heading = character(0), id = \"1\", language = \"en\", origin = character(0))))"
     ## [2] "list()"                                                                                                                                                                                                                                                                                                                                                                               
     ## [3] "list()"
 
